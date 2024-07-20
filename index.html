@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>krafta - link</title>
+    <script>
+        // Fungsi untuk mengambil parameter dari URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Fungsi untuk memuat file JSON dan memproses redirect
+        async function redirectToURL() {
+            const id = getQueryParam('id');
+            const defaultURL = 'https://krafta-visio.github.io/homepage/';
+            if (id) {
+                try {
+                    const response = await fetch('links.json');
+                    const urls = await response.json();
+                    if (urls[id]) {
+                        window.location.href = urls[id];
+                    } else {
+                        // Redirect ke halaman default jika ID tidak ditemukan
+                        window.location.href = defaultURL;
+                    }
+                } catch (error) {
+                    console.error('Error fetching JSON:', error);
+                    // Redirect ke halaman default jika terjadi kesalahan saat memuat JSON
+                    window.location.href = defaultURL;
+                }
+            } else {
+                // Redirect ke halaman default jika ID tidak diberikan
+                window.location.href = defaultURL;
+            }
+        }
+
+        window.onload = redirectToURL;
+    </script>
+</head>
+<body></body>
+</html>
